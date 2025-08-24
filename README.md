@@ -1,4 +1,4 @@
-# 🚀 Viral Post Generator
+# 🚀 AI-Marketing: Viral Post Generator
 
 An AI-powered social media marketing content creator built with Next.js and shadcn/ui. Generate viral-ready posts for Instagram, Twitter, LinkedIn, TikTok, and Facebook with smart templates and platform optimization.
 
@@ -28,8 +28,8 @@ An AI-powered social media marketing content creator built with Next.js and shad
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/viral-post-generator.git
-   cd viral-post-generator
+   git clone https://github.com/shremyagupta/AI-Marketing.git
+   cd AI-Marketing
    ```
 
 2. **Install dependencies**
