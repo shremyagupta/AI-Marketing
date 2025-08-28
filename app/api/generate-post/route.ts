@@ -25,15 +25,20 @@ export async function POST(request: NextRequest) {
     }
 
     const apiKey = process.env.PERPLEXITY_API_KEY;
+    console.log('API Key found:', !!apiKey); // Debug log
+    
     if (!apiKey) {
+      console.error('Perplexity API key not found in environment variables');
       return NextResponse.json(
         { error: 'Perplexity API key not configured' },
         { status: 500 }
       );
     }
 
+    console.log('Creating Perplexity client...'); // Debug log
     const client = new PerplexityClient(apiKey);
 
+    console.log('Generating content with AI...'); // Debug log
     // Generate content in parallel for better performance
     const [content, hashtags, ctaData] = await Promise.all([
       client.generateViralPost({
@@ -57,16 +62,18 @@ export async function POST(request: NextRequest) {
         platform,
         goal,
         business,
+        product,
         tone
       })
     ]);
+
+    console.log('Content generated successfully:', { content: content.substring(0, 100) + '...', hashtags, ctaData }); // Debug log
 
     // Combine custom hashtags with generated ones
     const allHashtags = [...hashtags, ...customHashtags].slice(0, 8);
 
     // Extract emojis from content for the emojis array
-    const emojiRegex = /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
-    const emojis = content.match(emojiRegex) || ['🚀', '✨', '💫'];
+    const emojis = ['🚀', '✨', '💫']; // Default emojis for now
 
     const post: GeneratedPost = {
       content: content.trim(),
@@ -78,6 +85,7 @@ export async function POST(request: NextRequest) {
       platform
     };
 
+    console.log('Post created successfully'); // Debug log
     return NextResponse.json({ post });
 
   } catch (error) {

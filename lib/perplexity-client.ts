@@ -88,56 +88,55 @@ export class PerplexityClient {
 
     const limit = platformLimits[params.platform as keyof typeof platformLimits] || platformLimits.instagram;
 
-    const systemPrompt = `You are a viral social media expert specializing in ${params.platform}. Create content that goes VIRAL using proven engagement tactics.
+    const systemPrompt = `You are a viral social media expert specializing in ${params.platform}. Your task is to create content that EXACTLY matches the user's requirements.
 
-PLATFORM RULES FOR ${params.platform.toUpperCase()}:
-- Character limit: ${limit.chars} chars
-- Focus: ${limit.focus}
-- Tone: ${params.tone}
-- Goal: ${params.goal}
+CRITICAL: Generate content based ONLY on the information provided by the user. Do NOT add generic content or assumptions.
+
+PLATFORM: ${params.platform.toUpperCase()}
+CHARACTER LIMIT: ${limit.chars} characters
+FOCUS: ${limit.focus}
+TONE: ${params.tone}
+GOAL: ${params.goal}
+BUSINESS: ${params.business}
+PRODUCT: ${params.product}
+AUDIENCE: ${params.audience}
 
 ${params.platform === 'linkedin' ? `
-LINKEDIN-SPECIFIC VIRAL TECHNIQUES:
-- Professional storytelling with personal anecdotes
-- Industry insights and "behind the scenes" content
-- Actionable tips and step-by-step advice
-- Thought leadership and expert positioning
-- Professional challenges and solutions
-- Career growth and development insights
-- Industry trends and predictions
-- Professional networking tips
-- Success stories and case studies
-- Professional humor and relatability` : `
-VIRAL TECHNIQUES TO USE:
-- Hook in first 3-5 words (question, bold statement, "POV:")
-- Pattern interrupts ("Plot twist:", "Hot take:")
-- Social proof ("9/10 people don't know this")
-- FOMO ("Before it's too late")
-- Relatability triggers ("When you finally...")
-- Controversy/debate starters
-- Numbers and stats
-- Personal story angles
-- 2-3 strategically placed emojis`}
+LINKEDIN REQUIREMENTS:
+- Professional tone appropriate for ${params.tone}
+- Focus on ${params.goal} goal
+- Target audience: ${params.audience}
+- Business context: ${params.business}
+- Product/service: ${params.product}
+- Use professional storytelling and industry insights` : `
+VIRAL TECHNIQUES FOR ${params.platform.toUpperCase()}:
+- Hook in first 3-5 words
+- ${params.tone} tone throughout
+- Focus on ${params.goal} goal
+- Target ${params.audience} audience
+- Make content irresistible to scroll past`}
 
-TARGET: ${params.audience}
-Make them STOP scrolling and ENGAGE immediately.`;
+IMPORTANT: Stay true to the user's specific business, product, and requirements. Do not use generic examples.`;
 
-    const userPrompt = `Create a VIRAL ${params.platform} post for:
+    const userPrompt = `Create a VIRAL ${params.platform} post with these EXACT specifications:
 
 BUSINESS: ${params.business}
 PRODUCT: ${params.product}
+AUDIENCE: ${params.audience}
+TONE: ${params.tone}
 GOAL: ${params.goal}
 
-Requirements:
-- ${params.platform === 'linkedin' ? '800-1200 characters for medium-long professional content' : `Under ${limit.chars} characters`}
-- ${params.tone} tone
+REQUIREMENTS:
+- ${params.platform === 'linkedin' ? '800-1200 characters for professional content' : `Under ${limit.chars} characters`}
+- ${params.tone} tone throughout
 - Hook ${params.audience} in first 5 words
-- Include engaging question or CTA
+- Include engaging question or CTA for ${params.goal}
 - NO hashtags (added separately)
 - Make it IRRESISTIBLE to scroll past
-- ${params.platform === 'linkedin' ? 'Use professional storytelling, industry insights, and actionable tips' : ''}
+- Focus on ${limit.focus}
+- Content must be SPECIFIC to ${params.business} and ${params.product}
 
-Focus on ${limit.focus}`;
+DO NOT use generic content. Create content that is specifically tailored to ${params.business} and their ${params.product}.`;
 
     const request: PerplexityRequest = {
       model: 'sonar',
@@ -169,19 +168,25 @@ Focus on ${limit.focus}`;
 
     const strategy = hashtagLimits[params.platform as keyof typeof hashtagLimits] || hashtagLimits.instagram;
 
-    const systemPrompt = `You are a viral hashtag strategist for ${params.platform}. Generate hashtags that maximize viral reach and engagement.
+    const systemPrompt = `You are a viral hashtag strategist for ${params.platform}. Generate hashtags that are SPECIFIC to the user's business and product.
 
-PLATFORM STRATEGY: ${strategy.strategy}
+CRITICAL: Create hashtags that are relevant to ${params.business} and ${params.product}. Do NOT use generic hashtags.
+
+PLATFORM: ${params.platform.toUpperCase()}
+STRATEGY: ${strategy.strategy}
 MAX HASHTAGS: ${strategy.max}
+BUSINESS: ${params.business}
+PRODUCT: ${params.product}
+AUDIENCE: ${params.audience}
 
-CURRENT VIRAL HASHTAG PATTERNS:
-- Trending topics and challenges
-- Community-building tags
-- Niche micro-communities
-- Brand discovery tags
-- Engagement-driving tags`;
+HASHTAG REQUIREMENTS:
+- Must be relevant to ${params.business} and ${params.product}
+- Include industry-specific tags
+- Include audience-targeting tags
+- Mix of trending and niche tags
+- NO generic hashtags like #viral, #trending (unless specifically relevant)`;
 
-    const userPrompt = `Generate ${strategy.max} VIRAL hashtags for ${params.platform}:
+    const userPrompt = `Generate ${strategy.max} SPECIFIC hashtags for ${params.platform}:
 
 BUSINESS: ${params.business}
 PRODUCT: ${params.product}
@@ -189,11 +194,13 @@ AUDIENCE: ${params.audience}
 
 REQUIREMENTS:
 - ${strategy.strategy}
-- Mix of high-volume and niche tags
-- Include discovery tags for ${params.audience}
-- Include trending/viral tags for ${params.platform}
+- Hashtags must be SPECIFIC to ${params.business} and ${params.product}
+- Include industry and product-specific tags
+- Include audience-targeting tags
+- Include relevant trending tags for ${params.platform}
 - Format: #hashtag (one per line)
-- NO explanations, just hashtags`;
+- NO explanations, just hashtags
+- NO generic hashtags unless specifically relevant to the business/product`;
 
     const request: PerplexityRequest = {
       model: 'sonar',
@@ -216,41 +223,52 @@ REQUIREMENTS:
     platform: string;
     goal: string;
     business: string;
+    product: string;
     tone: string;
   }): Promise<{ cta: string; buttonText: string }> {
     const systemPrompt = `You are a viral engagement expert specializing in CTAs that drive massive action on ${params.platform}.
 
+CRITICAL: Create CTAs that are SPECIFIC to ${params.business} and their ${params.product}. Do NOT use generic CTAs.
+
 GOAL: ${params.goal}
 TONE: ${params.tone}
+BUSINESS: ${params.business}
+PRODUCT: ${params.product}
+PLATFORM: ${params.platform}
 
-HIGH-CONVERTING CTA PATTERNS:
-- Questions that demand answers
-- FOMO triggers ("Don't miss out")
-- Social proof ("Join 1000s who...")
-- Challenges ("Can you...?")
-- Urgency ("Before it's gone")
-- Community building ("Tag someone who...")
-- Action-oriented language
-- Emotional triggers`;
+CTA REQUIREMENTS:
+- Must be relevant to ${params.business} and ${params.product}
+- Focus on ${params.goal} goal
+- Use ${params.tone} tone
+- Platform-appropriate for ${params.platform}
+- NO generic CTAs - must be business-specific`;
 
     const userPrompt = `Create HIGH-CONVERTING CTAs for ${params.platform}:
 
 BUSINESS: ${params.business}
+PRODUCT: ${params.product}
 GOAL: ${params.goal}
 TONE: ${params.tone}
 
-Generate:
-1. VIRAL CTA phrase (max 8 words) - make it irresistible
-2. Button text (max 5 words + 1 emoji) - action-focused
+REQUIREMENTS:
+- CTAs must be SPECIFIC to ${params.business} and ${params.product}
+- Focus on ${params.goal} goal
+- Use ${params.tone} tone
+- Platform-appropriate for ${params.platform}
+- NO generic CTAs
 
-Examples of viral CTAs:
-- "Tag someone who needs this"
-- "Can you guess what happens next?"
-- "Who else thinks this is genius?"
-- "Don't scroll without saving this"
+Generate:
+1. VIRAL CTA phrase (max 8 words) - make it irresistible and specific to the business
+2. Button text (max 5 words + 1 emoji) - action-focused and relevant
+
+Examples of business-specific CTAs:
+- "Try [Product] today" (for ${params.business})
+- "Join [Business] community"
+- "Discover [Product] benefits"
+- "Get [Business] insights"
 
 Format:
-CTA: [viral cta phrase]
+CTA: [business-specific cta phrase]
 BUTTON: [action button text]`;
 
     const request: PerplexityRequest = {

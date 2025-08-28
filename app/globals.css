@@ -2,6 +2,85 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent zooming and ensure proper touch behavior */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Prevent zooming */
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+  overflow-x: hidden;
+  /* Prevent zooming */
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Allow text selection in specific areas */
+input, textarea, [contenteditable] {
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+  /* Allow zooming in input fields for better UX */
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Prevent double-tap zoom on mobile */
+* {
+  touch-action: manipulation;
+  /* Prevent text size adjustment */
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Additional zoom prevention */
+html, body {
+  /* Prevent pinch-to-zoom */
+  touch-action: none;
+  /* Prevent text scaling */
+  -webkit-text-size-adjust: none !important;
+  -moz-text-size-adjust: none !important;
+  -ms-text-size-adjust: none !important;
+  text-size-adjust: none !important;
+}
+
+/* Allow touch actions only where needed */
+input, textarea, button, [role="button"] {
+  touch-action: manipulation;
+}
+
+/* Prevent zoom on specific elements */
+.no-zoom {
+  touch-action: none;
+  -webkit-text-size-adjust: none !important;
+  -moz-text-size-adjust: none !important;
+  -ms-text-size-adjust: none !important;
+  text-size-adjust: none !important;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -69,6 +148,208 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Aggressive anti-blur fixes for mobile and tablet */
+  @media (max-width: 1024px) {
+    body {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    
+    /* Force crisp text on all elements */
+    * {
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+      text-rendering: optimizeLegibility !important;
+      font-smooth: never !important;
+      -webkit-backface-visibility: visible !important;
+      backface-visibility: visible !important;
+      -webkit-transform: none !important;
+      transform: none !important;
+      -webkit-perspective: none !important;
+      perspective: none !important;
+    }
+    
+    /* Specific mobile sidebar fixes */
+    .mobile-sidebar,
+    .mobile-sidebar * {
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+      text-rendering: optimizeLegibility !important;
+      font-smooth: never !important;
+      -webkit-backface-visibility: visible !important;
+      backface-visibility: visible !important;
+      -webkit-transform: none !important;
+      transform: none !important;
+      -webkit-perspective: none !important;
+      perspective: none !important;
+      filter: none !important;
+      -webkit-filter: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+
+    /* Force crisp text on all text elements */
+    .mobile-sidebar h1,
+    .mobile-sidebar h2,
+    .mobile-sidebar h3,
+    .mobile-sidebar p,
+    .mobile-sidebar span,
+    .mobile-sidebar label,
+    .mobile-sidebar button,
+    .mobile-sidebar div {
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+      text-rendering: optimizeLegibility !important;
+      font-smooth: never !important;
+      filter: none !important;
+      -webkit-filter: none !important;
+    }
+  }
+
+  /* Remove all problematic effects */
+  .mobile-sidebar {
+    filter: none !important;
+    -webkit-filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    -webkit-transform: none !important;
+    transform: none !important;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    /* Allow shadows for better visual separation */
+    /* box-shadow: none !important; */
+    /* -webkit-box-shadow: none !important; */
+  }
+
+  /* Force crisp text rendering globally */
+  .mobile-sidebar,
+  .mobile-sidebar *,
+  .mobile-sidebar h1,
+  .mobile-sidebar h2,
+  .mobile-sidebar h3,
+  .mobile-sidebar p,
+  .mobile-sidebar span,
+  .mobile-sidebar label,
+  .mobile-sidebar button,
+  .mobile-sidebar div {
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: optimizeLegibility !important;
+    font-smooth: never !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    -webkit-transform: none !important;
+    transform: none !important;
+    -webkit-backface-visibility: visible !important;
+    backface-visibility: visible !important;
+    -webkit-perspective: none !important;
+    perspective: none !important;
+    will-change: auto !important;
+    -webkit-will-change: auto !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+  }
+
+  /* Allow Switch component to work in mobile sidebar */
+  .mobile-sidebar [data-radix-switch-thumb] {
+    transform: none !important;
+    -webkit-transform: none !important;
+  }
+
+  .mobile-sidebar [data-radix-switch-thumb][data-state="checked"] {
+    transform: translateX(20px) !important;
+    -webkit-transform: translateX(20px) !important;
+  }
+
+  .mobile-sidebar [data-radix-switch-thumb][data-state="unchecked"] {
+    transform: translateX(0px) !important;
+    -webkit-transform: translateX(0px) !important;
+  }
+
+  /* Ensure text elements are crisp */
+  .mobile-sidebar h1,
+  .mobile-sidebar h2,
+  .mobile-sidebar h3,
+  .mobile-sidebar p,
+  .mobile-sidebar span,
+  .mobile-sidebar label,
+  .mobile-sidebar button {
+    font-weight: inherit !important;
+    letter-spacing: normal !important;
+    word-spacing: normal !important;
+    line-height: inherit !important;
+  }
+
+  /* Remove any overlay effects */
+  .mobile-sidebar-overlay {
+    background: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Responsive overlay positioning */
+  @media (max-width: 640px) {
+    .mobile-sidebar-overlay {
+      left: 95vw !important;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 768px) {
+    .mobile-sidebar-overlay {
+      left: 85vw !important;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .mobile-sidebar-overlay {
+      left: 70vw !important;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .mobile-sidebar-overlay {
+      left: 320px !important;
+    }
+  }
+
+  /* Ensure overlay doesn't interfere with sidebar shadow */
+  .mobile-sidebar-overlay {
+    background: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    /* Add slight offset to prevent shadow interference */
+    margin-left: 2px;
+  }
+
+  /* Remove conflicting toggle button CSS that interferes with Radix UI */
+  /* .switch-root {
+    transition: all 0.2s ease-in-out !important;
+  }
+
+  .switch-thumb {
+    transition: all 0.2s ease-in-out !important;
+    transform-origin: center !important;
+  }
+
+  .switch-thumb[data-state="checked"] {
+    transform: translateX(20px) !important;
+  }
+
+  .switch-thumb[data-state="unchecked"] {
+    transform: translateX(0px) !important;
+  } */
+
+  /* Custom toggle button transforms - allow natural movement */
+  .custom-toggle-button span {
+    transform-origin: center !important;
+    will-change: transform !important;
   }
 }
 
@@ -79,17 +360,17 @@
   }
   
   .custom-scrollbar::-webkit-scrollbar-track {
-    @apply bg-muted;
+    @apply bg-slate-800;
     border-radius: 3px;
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30;
+    @apply bg-slate-600;
     border-radius: 3px;
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
+    @apply bg-slate-500;
   }
   
   /* Smooth transitions */
@@ -136,11 +417,7 @@
 
   /* Premium card styles */
   .premium-card {
-    @apply bg-card/50 backdrop-blur-xl border border-border/50 shadow-2xl;
-  }
-
-  .dark .premium-card {
-    @apply bg-card/20 backdrop-blur-xl border border-border/30 shadow-2xl;
+    @apply bg-slate-900/50 backdrop-blur-xl border-slate-800/50 shadow-2xl;
   }
 
   /* Gradient backgrounds */
@@ -166,7 +443,7 @@
 
   /* Premium button styles */
   .premium-button {
-    @apply relative overflow-hidden bg-gradient-to-r from-primary to-primary/80 text-primary-foreground font-semibold shadow-lg hover:shadow-xl transition-all duration-300;
+    @apply relative overflow-hidden bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300;
   }
 
   .premium-button::before {
@@ -185,6 +462,11 @@
 
   .dark .glow {
     box-shadow: 0 0 30px hsl(var(--primary) / 0.5);
+  }
+
+  /* Enhanced shadow for dark theme */
+  .shadow-3xl {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
   }
 }
 
@@ -287,11 +569,11 @@
   }
 
   .dark-card {
-    @apply bg-card/50 backdrop-blur-xl border border-border/30;
+    @apply bg-slate-900/50 backdrop-blur-xl border-slate-800/30;
   }
 
   .dark-input {
-    @apply bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20;
+    @apply bg-slate-800/50 border-slate-700/50 focus:border-blue-500/50 focus:ring-blue-500/20;
   }
 }
 
@@ -322,4 +604,78 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Ensure theme toggle dropdown is properly positioned */
+[data-radix-popper-content-wrapper] {
+  z-index: 9999 !important;
+}
+
+/* Sidebar-specific theme toggle positioning */
+.sidebar-theme-toggle [data-radix-popper-content-wrapper] {
+  position: relative !important;
+  transform: none !important;
+}
+
+/* Force dropdown to appear above other elements */
+[data-radix-dropdown-menu-content] {
+  z-index: 9999 !important;
+  position: fixed !important;
+}
+
+/* Ensure theme toggle button is clickable */
+.sidebar-theme-toggle button {
+  position: relative;
+  z-index: 1;
+}
+
+/* Fix Select dropdown positioning on mobile/tablet */
+[data-radix-select-content] {
+  z-index: 9999 !important;
+  position: fixed !important;
+  max-height: 300px !important;
+  overflow-y: auto !important;
+}
+
+/* Ensure Select dropdowns appear above the modal */
+[data-radix-select-content] {
+  z-index: 10000 !important;
+}
+
+/* Mobile-specific Select fixes */
+@media (max-width: 1024px) {
+  [data-radix-select-content] {
+    position: fixed !important;
+    z-index: 10000 !important;
+    max-width: 90vw !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+}
+
+/* Additional Select dropdown fixes */
+[data-radix-select-viewport] {
+  max-height: 300px !important;
+  overflow-y: auto !important;
+}
+
+[data-radix-select-item] {
+  cursor: pointer !important;
+  padding: 8px 12px !important;
+  border-radius: 4px !important;
+  margin: 2px 4px !important;
+}
+
+[data-radix-select-item]:hover {
+  background-color: hsl(var(--muted)) !important;
+}
+
+/* Ensure Select dropdowns are above modals */
+[data-radix-select-content] {
+  z-index: 10000 !important;
+  position: fixed !important;
+  background: hsl(var(--popover)) !important;
+  border: 1px solid hsl(var(--border)) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
 }
