@@ -625,13 +625,13 @@ Is this correct? If yes, I'll generate viral posts. If not, you can edit the det
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => window.open('https://github.com/SyedImtiyaz-1/', '_blank')}
+                  onClick={() => window.open('https://github.com/shremyagupta', '_blank')}
                   className="h-8 w-8 sm:h-9 sm:w-9 p-0 hover:bg-muted/50"
                   title="View on GitHub"
                 >
                   <Github className="w-4 h-4" />
                     </Button>
-                
+{/*                 
                 <Button 
                   variant="outline"
                   size="sm"
@@ -641,7 +641,7 @@ Is this correct? If yes, I'll generate viral posts. If not, you can edit the det
                 >
                   <Gift className="w-4 h-4 mr-1" />
                   <span className="hidden sm:inline">Support</span>
-                </Button>
+                </Button> */}
               </div>
             </div>
           </div>
